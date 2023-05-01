@@ -30,7 +30,7 @@ What happens behind the scenes when we type google.com in a browser?
 
 ## Google's 'g' key is pressed
 
-When you just press "g" the browser receives the event and the entire auto-complete machinery kicks into high gear. Depending on your browser's algorithm and if you are in private/incognito mode or not various suggestions will be presented to you in the dropbox below the URL bar. Most of these algorithms prioritize results based on search history and bookmarks. You are going to type "google.com" so none of it matters, but a lot of code will run before you get there and the suggestions will be refined with each key press. It may even suggest "google.com" before you type it.
+When you just press "g", the browser receives the event and the entire auto-complete machinery kicks into high gear. Depending on your browser's algorithm and if you are in private/incognito mode or not various suggestions will be presented to you in the dropbox below the URL bar. Most of these algorithms prioritize results based on search history and bookmarks. You are going to type "google.com" so none of it matters, but a lot of code will run before you get there and the suggestions will be refined with each key press. It may even suggest "google.com" before you type it.
 
 ## When you hit 'Enter'
 
@@ -80,7 +80,7 @@ The browser tries to figure out the IP address for the entered domain. The DNS l
 Here is a diagram of what a recursive DNS search looks like:
 
 <p align="center">
-  <img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/500pxAn_example_of_theoretical_DNS_recursion_svg.png" alt="Recursive DNS search"/>
+  <img src="img/Example_of_an_iterative_DNS_resolver.svg" alt="Recursive DNS search"/>
 </p>
 
 One worrying thing about DNS is that the entire domain like wikipedia.org or facebook.com seems to map to a single IP address. Fortunately, there are ways of mitigating the bottleneck:
@@ -119,7 +119,7 @@ Host: google.com
 Cookie: datr=1265876274-[...]; locale=en_US; lsd=WW[...]; c_user=2101[...]
 ```
 
-The GET request names the URL to fetch: “http://www.google.com/”. The browser identifies itself (User-Agent header), and states what types of responses it will accept (Accept and Accept-Encoding headers). The Connection header asks the server to keep the TCP connection open for further requests.
+The GET request names the URL to fetch: “[http://www.google.com/](http://www.google.com/)”. The browser identifies itself (User-Agent header), and states what types of responses it will accept (Accept and Accept-Encoding headers). The Connection header asks the server to keep the TCP connection open for further requests.
 
 The request also contains the cookies that the browser has for this domain. As you probably already know, cookies are key-value pairs that track the state of a web site in between different page requests. And so the cookies store the name of the logged-in user, a secret number that was assigned to the user by the server, some of user’s settings, etc. The cookies will be stored in a text file on the client, and sent to the server with every request.
 
@@ -136,9 +136,9 @@ After parsing the HTML, the web browser (and server) repeats this process for ev
 If the HTML referenced a resource on a different domain than www.google.com, the web browser goes back to the steps involved in resolving the other domain, and follows all steps up to this point for that domain. The Host header in the request will be set to the appropriate server name instead of google.com.
 
 **Gotcha:**
-* The trailing slash in the URL “http://facebook.com/” is important. In this case, the browser can safely add the slash. For URLs of the form http://example.com/folderOrFile, the browser cannot automatically add a slash, because it is not clear whether folderOrFile is a folder or a file. In such cases, the browser will visit the URL without the slash, and the server will respond with a redirect, resulting in an unnecessary roundtrip.
-* The server might respond with a 301 Moved Permanently response to tell the browser to go to “http://www.google.com/” instead of “http://google.com/”. There are interesting reasons why the server insists on the redirect instead of immediately responding with the web page that the user wants to see.
-One reason has to do with search engine rankings. See, if there are two URLs for the same page, say http://www.vasanth.com/ and http://vasanth.com/, search engine may consider them to be two different sites, each with fewer incoming links and thus a lower ranking. Search engines understand permanent redirects (301), and will combine the incoming links from both sources into a single ranking.
+* The trailing slash in the URL “[http://facebook.com/](http://facebook.com/)” is important. In this case, the browser can safely add the slash. For URLs of the form http://example.com/folderOrFile, the browser cannot automatically add a slash, because it is not clear whether folderOrFile is a folder or a file. In such cases, the browser will visit the URL without the slash, and the server will respond with a redirect, resulting in an unnecessary roundtrip.
+* The server might respond with a 301 Moved Permanently response to tell the browser to go to “[http://www.google.com/](http://www.google.com/)” instead of “[http://google.com/](http://google.com/)”. There are interesting reasons why the server insists on the redirect instead of immediately responding with the web page that the user wants to see.
+One reason has to do with search engine rankings. See, if there are two URLs for the same page, say http://www.vasanth.com/ and http://vasanth.com/, search engines may consider them to be two different sites, each with fewer incoming links and thus a lower ranking. Search engines understand permanent redirects (301), and will combine the incoming links from both sources into a single ranking.
 Also, multiple URLs for the same content are not cache-friendly. When a piece of content has multiple names, it will potentially appear multiple times in caches.
 
 **Note:**
@@ -234,7 +234,7 @@ Once the server supplies the resources (HTML, CSS, JS, images, etc.) to the brow
 7. **Data Storage:** This is a persistence layer. The browser may need to save data locally, such as cookies. Browsers also support storage mechanisms such as [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB) and [FileSystem](https://developer.chrome.com/apps/fileSystem).
 
 <p align="center">
-  <img src="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/layers.png" alt="Browser Components"/>
+  <img src="img/layers.png" alt="Browser Components"/>
 </p>
 
 Let’s start, with the simplest possible case: a plain HTML page with some text and a single image. What does the browser need to do to process this simple page?
@@ -248,7 +248,7 @@ Let’s start, with the simplest possible case: a plain HTML page with some text
 4. **DOM construction:** Finally, because the HTML markup defines relationships between different tags (some tags are contained within tags) the created objects are linked in a tree data structure that also captures the parent-child relationships defined in the original markup: HTML object is a parent of the body object, the body is a parent of the paragraph object, and so on.
 
 <p align="center">
-  <img src="https://developers.google.com/web/fundamentals/performance/critical-rendering-path/images/full-process.png" alt="DOM Construction Process"/>
+  <img src="img/full-process.png" alt="DOM Construction Process"/>
 </p>
 
 The final output of this entire process is the Document Object Model, or the “DOM” of our simple page, which the browser uses for all further processing of the page.
@@ -256,7 +256,7 @@ The final output of this entire process is the Document Object Model, or the “
 Every time the browser has to process HTML markup it has to step through all of the steps above: convert bytes to characters, identify tokens, convert tokens to nodes, and build the DOM tree. This entire process can take some time, especially if we have a large amount of HTML to process.
 
 <p align="center">
-  <img src="https://developers.google.com/web/fundamentals/performance/critical-rendering-path/images/dom-timeline.png" alt="Tracing DOM construction in DevTools"/>
+  <img src="img/dom-timeline.png" alt="Tracing DOM construction in DevTools"/>
 </p>
 
 If you open up Chrome DevTools and record a timeline while the page is loaded, you can see the actual time taken to perform this step — in the example above, it took us ~5ms to convert a chunk of HTML bytes into a DOM tree. Of course, if the page was larger, as most pages are, this process might take significantly longer. You will see in our future sections on creating smooth animations that this can easily become your bottleneck if the browser has to process large amounts of HTML.
@@ -290,7 +290,7 @@ The rendering engine will start getting the contents of the requested document f
 After that the basic flow of the rendering engine is:
 
 <p align="center">
-  <img src="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/flow.png" alt="Rendering engine basic flow"/>
+  <img src="img/flow.png" alt="Rendering engine basic flow"/>
 </p>
 
 The rendering engine will start parsing the HTML document and convert elements to [DOM](http://domenlightenment.com/) nodes in a tree called the **"content tree"**.
@@ -307,7 +307,7 @@ It's important to understand that this is a gradual process. For better user exp
 Given below is Webkit's flow:
 
 <p align="center">
-  <img src="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/webkitflow.png" alt="Webkit main flow"/>
+  <img src="img/webkitflow.png" alt="Webkit main flow"/>
 </p>
 
 ## Parsing Basics
@@ -325,7 +325,7 @@ Parsing can be separated into two sub processes: lexical analysis and syntax ana
 Parsers usually divide the work between two components: the lexer (sometimes called tokenizer) that is responsible for breaking the input into valid tokens, and the parser that is responsible for constructing the parse tree by analyzing the document structure according to the language syntax rules. The lexer knows how to strip irrelevant characters like white spaces and line breaks.
 
 <p align="center">
-  <img src="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/image011.png" alt="Source document to parse tree"/>
+  <img src="img/image011.png" alt="Source document to parse tree"/>
 </p>
 
 The parsing process is iterative. The parser will usually ask the lexer for a new token and try to match the token with one of the syntax rules. If a rule is matched, a node corresponding to the token will be added to the parse tree and the parser will ask for another token.
@@ -339,7 +339,7 @@ HTML parsing algorithm consists of two stages: tokenization and tree constructio
 **Tokenization** is the lexical analysis, parsing the input into tokens. Among HTML tokens are start tags, end tags, attribute names and attribute values. The tokenizer recognizes the token, gives it to the tree constructor, and consumes the next character for recognizing the next token, and so on until the end of the input.
 
 <p align="center">
-  <img src="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/image017.png" alt="HTML parsing flow"/>
+  <img src="img/image017.png" alt="HTML parsing flow"/>
 </p>
 
 ## DOM Tree
@@ -362,7 +362,7 @@ The DOM has an almost one-to-one relation to the markup. For example:
 This markup would be translated to the following DOM tree:
 
 <p align="center">
-  <img src="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/image015.png" alt="DOM Tree"/>
+  <img src="img/image015.png" alt="DOM Tree"/>
 </p>
 
 ### Why is the DOM slow?
@@ -391,7 +391,7 @@ There are DOM elements which correspond to several visual objects. These are usu
 Some render objects correspond to a DOM node but not in the same place in the tree. Floats and absolutely positioned elements are out of flow, placed in a different part of the tree, and mapped to the real frame. A placeholder frame is where they should have been.
 
 <p align="center">
-  <img src="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/image025.png" alt="The render tree and the corresponding DOM tree"/>
+  <img src="img/image025.png" alt="The render tree and the corresponding DOM tree"/>
 </p>
 
 In WebKit the process of resolving the style and creating a renderer is called "attachment". Every DOM node has an "attach" method. Attachment is synchronous, node insertion to the DOM tree calls the new node "attach" method.
@@ -459,7 +459,7 @@ In the painting stage, the render tree is traversed and the renderer's "paint()"
 
 Like layout, painting can also be global–the entire tree is painted–or incremental. In incremental painting, some of the renderers change in a way that does not affect the entire tree. The changed renderer invalidates its rectangle on the screen. This causes the OS to see it as a "dirty region" and generate a "paint" event. The OS does it cleverly and coalesces several regions into one.
 
-Before repainting, WebKit saves the old rectangle as a bitmap. It then paints only the delta between the new and old rectangles. The browsers try to do the minimal possible actions in response to a change. So changes to an elements color will cause only repaint of the element. Changes to the element position will cause layout and repaint of the element, its children and possibly siblings. Adding a DOM node will cause layout and repaint of the node. Major changes, like increasing font size of the "html" element, will cause invalidation of caches, relayout and repaint of the entire tree.
+Before repainting, WebKit saves the old rectangle as a bitmap. It then paints only the delta between the new and old rectangles. The browsers try to do the minimal possible actions in response to a change. So changes to an element's color will cause only repaint of the element. Changes to the element position will cause layout and repaint of the element, its children and possibly siblings. Adding a DOM node will cause layout and repaint of the node. Major changes, like increasing font size of the "html" element, will cause invalidation of caches, relayout and repaint of the entire tree.
 
 There are three different positioning schemes:
 
@@ -486,7 +486,7 @@ Tim Berners-Lee, a British scientist at CERN, invented the World Wide Web (WWW) 
 
 The first website at CERN - and in the world - was dedicated to the World Wide Web project itself and was hosted on Berners-Lee's NeXT computer. The website described the basic features of the web; how to access other people's documents and how to set up your own server. The NeXT machine - the original web server - is still at CERN. As part of the project to restore [the first website](http://info.cern.ch/), in 2013 CERN reinstated the world's first website to its original address.
 
-On 30 April 1993 CERN put the World Wide Web software in the public domain. CERN made the next release available with an open license, as a more sure way to maximize its dissemination. Through these actions, making the software required to run a web server freely available, along with a [basic browser](http://line-mode.cern.ch/) and a library of code, the web was allowed to flourish.
+On 30 April 1993, CERN put the World Wide Web software in the public domain. CERN made the next release available with an open license, as a more sure way to maximize its dissemination. Through these actions, making the software required to run a web server freely available, along with a [basic browser](http://line-mode.cern.ch/) and a library of code, the web was allowed to flourish.
 
 *More reading:*
 
